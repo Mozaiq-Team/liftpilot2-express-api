@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2020", // Compile to ES2020 JavaScript
+    "module": "ESNext", // Use ES modules
+    "moduleResolution": "node", // Resolve modules using Node.js
+    "esModuleInterop": true, // Allow default imports
+    "outDir": "./dist", // Output directory
+    "rootDir": "./src", // Root source directory
+    "strict": true, // Enable strict type-checking
+    "forceConsistentCasingInFileNames": true, // Ensure consistent casing
+    "skipLibCheck": true, // Skip type checking of declaration files
+    "resolveJsonModule": true, // Support importing JSON modules
+    "allowJs": true, // Allow JavaScript files
+    "isolatedModules": true // Ensures files can be transpiled independently
+  },
+  "include": [
+    "src/**/*.ts" // Include all TypeScript files
+  ],
+  "exclude": ["node_modules", "dist"]
+}
