@@ -105,10 +105,13 @@ router.get("/", async (req, res) => {
 
     const events = await Event.find(query).sort({ createdAt: -1 });
 
-    // Cache each event in Redis
-    for (const event of events) {
-      await redis.set(`event:${event._id}`, JSON.stringify(event), "EX", 600);
-    }
+    // Cache all events in redis
+    await redis.set(
+      `events:${JSON.stringify(query)}`,
+      JSON.stringify(events),
+      "EX",
+      600,
+    );
 
     res.json(events);
   } catch (err) {
