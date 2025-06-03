@@ -5,40 +5,19 @@ import { redis } from "../config/redis.js";
 const router = Router();
 
 router.post("/", async (req, res) => {
-  const {
-    cid,
-    eventType,
-    eventValue,
-    page,
-    ctaClicked,
-    meta,
-    email,
-    name,
-    fingerprint,
-  } = req.body;
+  const lpCookieHeader = req.get("X-LP-Cookie");
+  const lpCookieValue = lpCookieHeader || req.cookies.LP_COOKIE || "";
+
+  const payload = req.body;
+
+  if (lpCookieValue && lpCookieValue !== "") {
+    payload.cid = lpCookieValue;
+  }
 
   try {
-    const newEvent = new Event({
-      cid,
-      eventType,
-      eventValue,
-      page,
-      ctaClicked,
-      meta,
-      email,
-      name,
-      fingerprint,
-    });
+    const newEvent = new Event(payload);
 
     await newEvent.save();
-
-    // ✅ Cache the new event by ID
-    await redis.set(
-      `event:${newEvent._id}`,
-      JSON.stringify(newEvent),
-      "EX",
-      600,
-    );
 
     console.log("New event created:", newEvent);
     res.status(201).json(newEvent);
@@ -83,35 +62,38 @@ router.get("/:id", (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  const { eventType, eventValue, name, page, cid } = req.query;
+  const lpCookieHeader = req.get("X-LP-Cookie");
+  const lpCookieValue = lpCookieHeader || req.cookies.LP_COOKIE || "";
+
+  const { eventName, eventType } = req.query;
 
   try {
     const query: any = {};
 
+    if (eventName) query.eventName = eventName;
     if (eventType) query.eventType = eventType;
-    if (eventValue) query.eventValue = eventValue;
-    if (name) query.name = name;
-    if (page) query.page = page;
-    if (cid) query.cid = cid;
+    if (lpCookieValue && lpCookieValue !== "") query.cid = lpCookieValue;
 
     // Check Redis cache first
     const cacheKey = `events:${JSON.stringify(query)}`;
     const cachedEvents = await redis.get(cacheKey);
+    console.log({ cachedEvents });
     if (cachedEvents) {
-      console.log("⚡ Cache hit for events:", query);
+      console.log("⚡ Cache hit for events:", query, cachedEvents);
       res.json(JSON.parse(cachedEvents));
       return;
     }
 
     const events = await Event.find(query).sort({ createdAt: -1 });
-
-    // Cache all events in redis
-    await redis.set(
-      `events:${JSON.stringify(query)}`,
-      JSON.stringify(events),
-      "EX",
-      600,
-    );
+    if (events.length > 0) {
+      // Cache all events in redis
+      await redis.set(
+        `events:${JSON.stringify(query)}`,
+        JSON.stringify(events),
+        "EX",
+        600,
+      );
+    }
 
     res.json(events);
   } catch (err) {
