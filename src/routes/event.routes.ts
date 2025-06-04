@@ -65,13 +65,12 @@ router.get("/", async (req, res) => {
   const lpCookieHeader = req.get("X-LP-Cookie");
   const lpCookieValue = lpCookieHeader || req.cookies.LP_COOKIE || "";
 
-  const { eventName, eventType } = req.query;
+  const { name } = req.query;
 
   try {
     const query: any = {};
 
-    if (eventName) query.eventName = eventName;
-    if (eventType) query.eventType = eventType;
+    if (name) query.name = name;
     if (lpCookieValue && lpCookieValue !== "") query.cid = lpCookieValue;
 
     // Check Redis cache first

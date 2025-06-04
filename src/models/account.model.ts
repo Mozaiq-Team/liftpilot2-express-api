@@ -2,6 +2,7 @@ import mongoose, { Schema, Types } from "mongoose";
 
 const AccountSchema = new Schema(
   {
+    aid: { type: String, index: true, sparse: true }, // Field used in seed.js
     accountName: { type: String, required: true },
     industry: { type: String, required: true },
     sizeEE: { type: String },

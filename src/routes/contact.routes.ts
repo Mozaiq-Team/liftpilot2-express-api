@@ -7,7 +7,7 @@ const router = Router();
 // Create contact
 router.post("/", async (req, res) => {
   const {
-    accountId,
+    aid,
     emails,
     firstName,
     lastName,
@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
 
   try {
     const newContact = new Contact({
-      accountId,
+      aid,
       emails,
       firstName,
       lastName,

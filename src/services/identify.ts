@@ -19,7 +19,7 @@ const identify = async (params: Params) => {
     contact = await Contact.findOne({ cid }).lean();
     if (contact) {
       result.cid = contact._id.toString() ?? undefined;
-      result.aid = contact.accountId.toString() ?? undefined;
+      result.aid = contact.aid ?? undefined;
       return result;
     }
   }
@@ -29,7 +29,7 @@ const identify = async (params: Params) => {
     contact = await Contact.findOne({ fingerprint }).lean();
     if (contact) {
       result.cid = contact._id.toString() ?? undefined;
-      result.aid = contact.accountId.toString() ?? undefined;
+      result.aid = contact.aid ?? undefined;
       return result;
     }
   }
