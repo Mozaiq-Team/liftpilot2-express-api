@@ -31,6 +31,27 @@ router.get("/:id", (req, res) => {
   const { id } = req.params;
   const redisKey = `event:${id}`;
 
+  // check query param for skip_redis
+
+    const skipRedis = req.query.skip_redis === "true";
+    if (skipRedis) {
+      Event.findById(id)
+          .then((event) => {
+            if (!event) {
+              return res.status(404).json({ message: "Event not found" });
+            }
+            // Cache the event in Redis
+            redis.set(redisKey, JSON.stringify(event), "EX", 600);
+            console.log("Event cached in Redis:", id);
+            res.json(event);
+          })
+          .catch((err) => {
+            console.error("Error fetching from MongoDB:", err);
+            res.status(500).json({ message: "Server error" });
+          });
+      return;
+    }
+
   redis
     .get(redisKey)
     .then((cached) => {
