@@ -2,7 +2,9 @@ import mongoose, { Schema, Types } from "mongoose";
 
 const contactSchema = new Schema(
   {
-    accountId: { type: Types.ObjectId, ref: "Account", required: true },
+    // Main fields
+    cid: { type: String, index: true, sparse: true }, // Contact ID
+    aid: { type: String, index: true, required: true }, // Account ID (replaces accountId)
     emails: { type: [String], required: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
@@ -10,6 +12,14 @@ const contactSchema = new Schema(
     actions: [String],
     lastAction: String,
     fingerprint: { type: String, index: true, sparse: true },
+    anon: { type: Boolean, default: false }, // Anonymous contact flag
+
+    // Nested fields used in seed.js
+    dynamic: {
+      lastPage: String,
+      lastAction: String,
+      lastDemoNotes: String,
+    },
   },
   { timestamps: true },
 );

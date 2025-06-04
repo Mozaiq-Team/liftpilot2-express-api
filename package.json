@@ -9,7 +9,8 @@
     "dev": "nodemon --exec tsx src/app.ts",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write \"src/**/*.ts\"",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "seed": "node scripts/seed.js"
   },
   "keywords": [],
   "author": "",

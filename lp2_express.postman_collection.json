@@ -1,0 +1,183 @@
+{
+	"info": {
+		"_postman_id": "0e286dfc-3f87-4602-8b7e-ab9e5afeadda",
+		"name": "lp2_express",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6384623"
+	},
+	"item": [
+		{
+			"name": "Create Account",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"accountName\": \"Mozaiq\",\n    \"industry\": \"Marketing\",\n    \"sizeEE\": 40,\n    \"sizeRev\": \"100m\",\n    \"rep\": \"Jason\",\n    \"company_ip\": \"127.0.0.1\",\n    \"dynamic\": {\"a\":\"b\",\"c\":3,\"d\":{\"ab\":\"cd\"}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}accounts/",
+					"host": [
+						"{{url}}accounts"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Test Event",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-LP-Cookie",
+						"value": "Kamil_Test",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cid\":\"kamil-test\",\n    \"name\": \"kamil_test_event\",\n    \"value\": {\"s\":\"something\"}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}events/",
+					"host": [
+						"{{url}}events"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get contact events by name",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}events/?cid=Kamil_Test&name=kamil_test_event",
+					"host": [
+						"{{url}}events"
+					],
+					"path": [
+						""
+					],
+					"query": [
+						{
+							"key": "cid",
+							"value": "Kamil_Test"
+						},
+						{
+							"key": "name",
+							"value": "kamil_test_event"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Account",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"accountName\": \"Mozaiq\",\n    \"industry\": \"Marketing\",\n    \"sizeEE\": 40,\n    \"sizeRev\": \"100m\",\n    \"rep\": \"Jason\",\n    \"company_ip\": \"127.0.0.1\",\n    \"dynamic\": \"Had Demo, requested pricing\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://v2-express-api.liftpilot.ai/api/accounts/683f1a5176a4c6556abe5c47",
+					"protocol": "https",
+					"host": [
+						"v2-express-api",
+						"liftpilot",
+						"ai"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"683f1a5176a4c6556abe5c47"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://v2-express-api.liftpilot.ai/api/",
+			"type": "string"
+		}
+	]
+}
