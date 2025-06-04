@@ -10,7 +10,9 @@ const AccountSchema = new Schema(
     rep: { type: String },
     company_ip: { type: String, index: true, sparse: true },
     dynamic: {
-      opportunity: String,
+        type: Map,
+        of: Schema.Types.Mixed,
+        default: {},
     },
     contacts: [{ type: Types.ObjectId, ref: "Contact" }],
   },
