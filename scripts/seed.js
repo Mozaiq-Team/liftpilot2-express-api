@@ -3,9 +3,9 @@
 import mongoose from 'mongoose';
 import { performance } from 'perf_hooks';
 import dotenv from 'dotenv';
-import { AccountModel } from '../dist/models/account.model.js';
-import { ContactModel } from '../dist/models/contact.model.js';
-import { EventModel } from '../dist/models/event.model.js';
+import { Account } from '../dist/models/account.model.js';
+import { Contact } from '../dist/models/contact.model.js';
+import { Event } from '../dist/models/event.model.js';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -82,9 +82,9 @@ async function seedDatabase() {
 
         // Clear collections
         console.log('Clearing collections...');
-        await AccountModel.deleteMany({});
-        await ContactModel.deleteMany({});
-        await EventModel.deleteMany({});
+        await Account.deleteMany({});
+        await Contact.deleteMany({});
+        await Event.deleteMany({});
         console.log('Collections cleared!');
 
         // Seed Accounts
@@ -117,7 +117,7 @@ async function seedDatabase() {
                 });
             }
 
-            await AccountModel.insertMany(batch);
+            await Account.insertMany(batch);
             displayETA(accountStartTime, totalAccounts, i + batchSize, 'Accounts');
         }
 
@@ -158,7 +158,7 @@ async function seedDatabase() {
                 });
             }
 
-            await ContactModel.insertMany(batch);
+            await Contact.insertMany(batch);
             displayETA(contactStartTime, totalContacts, i + batchSize, 'Contacts');
         }
 
@@ -188,7 +188,7 @@ async function seedDatabase() {
                 });
             }
 
-            await EventModel.insertMany(batch);
+            await Event.insertMany(batch);
             displayETA(eventStartTime, totalEvents, i + batchSize, 'Events');
         }
 
